@@ -14,12 +14,10 @@ RUN apk update && \
             libffi-dev && \
     rm -rf /var/cache/apk/*
 
-RUN pip install psycopg2
-
-
 COPY requirements.txt requirements.txt
 RUN  pip install --upgrade pip && \
      pip install gunicorn uvicorn && \
+     pip install psycopg2 && \
      pip install -r requirements.txt --no-cache-dir
 
 COPY . .

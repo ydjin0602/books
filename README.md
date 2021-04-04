@@ -5,6 +5,9 @@ Service that implements a library for demonstrating CRUD requests
  | Name | Default | Description| 
  | --- | --- | --- |
  | APP_PORT | "" | Application port |
+ | LISTEN_HOST | "0.0.0.0" | Container host |
+ | WORKERS | "5" | Gunicorn workers |
+ | THREADS | "2" | Gunicorn threads |
  | PG_HOST | "postgres" | PostgreSQL host |
  | PG_PORT | "5432" | PostgreSQL port |
  | PG_DATABASE | "books" | PostgreSQL database |
