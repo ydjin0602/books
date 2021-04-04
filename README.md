@@ -1,9 +1,9 @@
 # books
 
-#General information
+# General information
 Service that implements a library for demonstrating CRUD requests
 
-#Environment variables
+# Environment variables
  | Name | Default | Description| 
  | --- | --- | --- |
  | APP_PORT | "" | Application port |
@@ -20,14 +20,14 @@ Service that implements a library for demonstrating CRUD requests
 2. Set environment variables in `.env` file.
 3. Run command `docker-compose up -d --build`
 
-#Viewing logs
+# Viewing logs
  - `docker logs <container_id>`
 
 
 # Default CRUD requests
- - Get a book:
+ - **Get a book:**
 ```
-GET localhost:port/?id=<id>
+_GET_ localhost:port/?id=<id>
 ```
 Request body:
 ```
@@ -39,9 +39,9 @@ Request body:
 }
 ```
 
- - Get all books:
+ - **Get all books:**
 ```
-GET localhost:port/?id=all_books
+_GET_ localhost:port/?id=all_books
 ```
 Response body:
 ```
@@ -57,9 +57,9 @@ Response body:
 }
 ```
 
-- Create a book:
+- **Create a book:**
 ```
-POST localhost:port/
+_POST_ localhost:port/
 ```
 Request body:
 ```
@@ -79,9 +79,9 @@ Response body:
 }
 ```
 
-- Update a book:
+- **Update a book:**
 ```
-PUT localhost:port/
+_PUT_ localhost:port/
 ```
 Request body:
 ```
@@ -102,9 +102,9 @@ Response body:
 }
 ```
 
-- Delete a book:
+- **Delete a book:**
 ```
-DELETE localhost:port/
+_DELETE_ localhost:port/
 ```
 Request body:
 ```
@@ -120,8 +120,8 @@ Response body:
 }
 ```
 
-#Error responses
- - Invalid request body
+# Error responses
+ - **Invalid request body:**
 ```
 {
     "error": "request body is invalid."
