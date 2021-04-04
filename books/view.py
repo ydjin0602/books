@@ -102,7 +102,7 @@ class BooksView(MethodView):
         LOGGER.warning('Transaction error.', exc_info=exception)
         return jsonify(
                 {
-                    'error': 'transaction error'
+                    'error': 'transaction error.'
                 }
             ), HTTPStatus.SERVICE_UNAVAILABLE
 
