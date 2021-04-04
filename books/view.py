@@ -8,7 +8,7 @@ from flask.views import MethodView
 from marshmallow import ValidationError
 from sqlalchemy import exc
 
-from books.books_actions import create_book, update_book, delete_book, get_book, get_all_books
+from books.book_actions import create_book, update_book, delete_book, get_book, get_all_books
 from books.exception import BookNotFoundError
 from books.request_options import CreateBookOptions, UpdateBookOptions, DeleteBookOptions, GetBookOptions
 
@@ -21,7 +21,7 @@ class BooksView(MethodView):
     __UPDATE_BOOK_SCHEMA = UpdateBookOptions.schema()
     __DELETE_BOOK_SCHEMA = DeleteBookOptions.schema()
 
-    def get(self):
+    def get(self) -> [t.Dict[str, t.Any], HTTPStatus]:
         try:
             request_body: GetBookOptions = self.__GET_BOOK_SCHEMA.load(request.args.to_dict())
         except (json.JSONDecodeError, KeyError, UnicodeDecodeError, ValidationError) as exception:
@@ -32,23 +32,18 @@ class BooksView(MethodView):
                 books = get_all_books()
                 return jsonify(
                     {
-                        'books': books
+                        'result': books
                     }
                 )
             else:
                 book = get_book(request_body)
                 return book
         except BookNotFoundError as exception:
-            LOGGER.warning("Book not found.", exc_info=exception)
-            return jsonify(
-                {
-                    'error': str(exception)
-                }
-            ), HTTPStatus.NOT_FOUND
+            return self.__return_not_found_error(exception)
         except exc.SQLAlchemyError as exception:
             return self.__return_transaction_error(exception)
 
-    def post(self):
+    def post(self) -> [t.Dict[str, t.Any], HTTPStatus]:
         try:
             request_body: CreateBookOptions = self.__CREATE_BOOK_SCHEMA.load(request.json)
         except (json.JSONDecodeError, KeyError, UnicodeDecodeError, ValidationError) as exception:
@@ -61,7 +56,7 @@ class BooksView(MethodView):
 
         return book
 
-    def put(self):
+    def put(self) -> [t.Dict[str, t.Any], HTTPStatus]:
         try:
             request_body: UpdateBookOptions = self.__UPDATE_BOOK_SCHEMA.load(request.json)
         except (json.JSONDecodeError, KeyError, UnicodeDecodeError, ValidationError) as exception:
@@ -74,7 +69,7 @@ class BooksView(MethodView):
 
         return book
 
-    def delete(self):
+    def delete(self) -> [t.Dict[str, t.Any], HTTPStatus]:
         try:
             request_body: DeleteBookOptions = self.__DELETE_BOOK_SCHEMA.load(request.json)
         except (json.JSONDecodeError, KeyError, UnicodeDecodeError, ValidationError) as exception:
@@ -82,10 +77,16 @@ class BooksView(MethodView):
 
         try:
             delete_book(request_body)
+            return jsonify(
+                {
+                    'id': request_body.id,
+                    'result': 'Book successfully deleted.'
+                }
+            )
+        except BookNotFoundError as exception:
+            return self.__return_not_found_error(exception)
         except exc.SQLAlchemyError as exception:
             return self.__return_transaction_error(exception)
-
-        return 'ok', 200
 
     @staticmethod
     def __return_bad_request(exception: t.Any):
@@ -101,7 +102,16 @@ class BooksView(MethodView):
         LOGGER.warning('Transaction error.', exc_info=exception)
         return jsonify(
                 {
-                    'status': 'transaction error'
+                    'error': 'transaction error'
                 }
             ), HTTPStatus.SERVICE_UNAVAILABLE
+
+    @staticmethod
+    def __return_not_found_error(exception: t.Any):
+        LOGGER.warning("Book not found.", exc_info=exception)
+        return jsonify(
+            {
+                'error': str(exception)
+            }
+        ), HTTPStatus.NOT_FOUND
 

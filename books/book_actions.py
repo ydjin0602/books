@@ -30,11 +30,13 @@ def update_book(book: UpdateBookOptions) -> t.Dict[str, t.Any]:
 
 def delete_book(book: DeleteBookOptions) -> None:
     book_object = Book.query.get(book.id)
+    if not book_object:
+        raise BookNotFoundError()
     session.delete(book_object)
     session.commit()
 
 
-def get_book(book: GetBookOptions):
+def get_book(book: GetBookOptions) -> t.Dict[str, t.Any]:
     book_object = Book.query.get(book.id)
     if not book_object:
         raise BookNotFoundError()
@@ -42,7 +44,7 @@ def get_book(book: GetBookOptions):
     return book_schema
 
 
-def get_all_books():
+def get_all_books() -> t.List[t.Dict[str, t.Any]]:
     book_objects = Book.query.all()
     book_schemas = [BookSchema().dump(book) for book in book_objects]
     return book_schemas
