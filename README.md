@@ -1,5 +1,3 @@
-# books
-
 # General information
 Service that implements a library for demonstrating CRUD requests
 
@@ -11,7 +9,7 @@ Service that implements a library for demonstrating CRUD requests
  | PG_PORT | "5432" | PostgreSQL port |
  | PG_DATABASE | "books" | PostgreSQL database |
  | PG_USERNAME | "dev" | PostgreSQL username |
- | PG_PASSWORD | "dev" | Postgres password |
+ | PG_PASSWORD | "dev" | PostgreSQL password |
 
 # [Dependencies](requirements.txt)
 
@@ -21,13 +19,13 @@ Service that implements a library for demonstrating CRUD requests
 3. Run command `docker-compose up -d --build`
 
 # Viewing logs
- - `docker logs <container_id>`
+ - Run command `docker logs <container_id>`
 
 
 # Default CRUD requests
  - **Get a book:**
 ```
-_GET_ localhost:port/?id=<id>
+GET localhost:port/?id=<id>
 ```
 Request body:
 ```
@@ -41,7 +39,7 @@ Request body:
 
  - **Get all books:**
 ```
-_GET_ localhost:port/?id=all_books
+GET localhost:port/?id=all_books
 ```
 Response body:
 ```
@@ -59,7 +57,7 @@ Response body:
 
 - **Create a book:**
 ```
-_POST_ localhost:port/
+POST localhost:port/
 ```
 Request body:
 ```
@@ -81,7 +79,7 @@ Response body:
 
 - **Update a book:**
 ```
-_PUT_ localhost:port/
+PUT localhost:port/
 ```
 Request body:
 ```
@@ -104,7 +102,7 @@ Response body:
 
 - **Delete a book:**
 ```
-_DELETE_ localhost:port/
+DELETE localhost:port/
 ```
 Request body:
 ```
@@ -128,14 +126,14 @@ Response body:
 }
 ```
 
-- Some errors with SQLAlchemy
+- **Some errors with SQLAlchemy:**
 ```
 {
     "error": "transaction error."
 }
 ```
 
-- Book not found (GET and DELETE requests)
+- **Book not found (GET and DELETE requests):**
 ```
 {
     "error": "Book not found."
