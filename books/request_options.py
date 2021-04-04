@@ -6,6 +6,12 @@ from dataclasses_json import dataclass_json
 
 @dataclass_json
 @dataclass(frozen=True)
+class GetBookOptions:
+    id: t.Union[int, str]
+
+
+@dataclass_json
+@dataclass(frozen=True)
 class CreateBookOptions:
     title: t.Text
     author: t.Text
