@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+  directory-service:
+    build: .
+    restart: always
+    env_file: .env
+    depends_on:
+      - postgres
+    ports:
+      - ${APP_PORT}:8000
+
+  postgres:
+    image: postgres:11.1-alpine
+
+    restart: always
+    ports:
+    - 5432:5432
+    command: postgres -c max_connections=100 -c shared_buffers=200MB
