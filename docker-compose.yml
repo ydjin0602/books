@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  directory-service:
+  library-service:
     build: .
     restart: always
     env_file: .env
